@@ -65,7 +65,12 @@ def update(object, config):
 
     if _type == "tweet":
         Tweet = object
-        datetime_ms = datetime.datetime.strptime(Tweet.datetime, Tweet_formats['datetime']).timestamp() * 1000
+        if 'Naoaianeia a?aiy (ceia)' in Tweet.datetime:
+            Tweet.datetime = Tweet.datetime[:19]
+        try:
+            datetime_ms = datetime.datetime.strptime(Tweet.datetime, Tweet_formats['datetime']).timestamp() * 1000
+        except:
+            datetime_ms = datetime.datetime.strptime(Tweet.datetime, '%Y-%m-%d %H:%M:%S').timestamp() * 1000
         day = weekdays[strftime("%A", localtime(datetime_ms/1000))]
         dt = f"{object.datestamp} {object.timestamp}"
         _data = {
